@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Creating a login page</title>
+    <style type="text/css">
+    .myButton {
+    background-color:#ff0088;
+    border-radius:28px;
+    border:1px solid #e8ede9;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:17px;
+    padding:16px 31px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #203d1c;
+}
+.myButton:hover {
+    background-color:#5cbf2a;
+}
+.myButton:active {
+    position:relative;
+    top:1px;
+}
+
+body 
+{
+background: url("now1.jpg");
+background-repeat: no-repeat;
+background-size: cover;
+opacity:0.5;
+}
+</style>
+<script type="text/javascript">
+            function checkPassword(form) { 
+                password1 = form.password1.value; 
+                password2 = form.password2.value; 
+                if (password1 == '') 
+                    alert ("Please enter Password");
+                else if (password2 == '') 
+                    alert ("Please enter confirm password");    
+                else if (password1 != password2) { 
+                    alert ("\nPassword did not match: Please try again...") 
+                    return false; 
+                } 
+                else{ 
+                    alert("Password Match: Thank you please login now") 
+                    return true; 
+                } 
+
+            }
+
+     
+types=["Graduation",'post Graduation'];
+
+
+function filldd()
+{
+var typeDD=document.getElementById('type');
+for(i=0;i<types.length;i++){
+var ele=document.createElement('option');
+ele.text=types[i];
+typeDD.add(ele,i+1)
+}
+}
+
+
+   data=[['Computer Science Engineering ','Electronic and computers','batchelor of arts'],['computers','Electronics','iot','java' ]];
+
+
+function fillData()
+{
+var typeDDN=document.getElementById('type');
+  var selectedIdx= typeDDN.selectedIndex;
+
+console.log(selectedIdx);
+
+var dataDD=document.getElementById('dd');
+
+dataDD.innerText=null;
+
+
+for(i=0;i<data[selectedIdx].length;i++)
+{
+
+var ele=document.createElement('option');
+ele.text=data[selectedIdx][i];
+
+dataDD.add(ele,i+1)
+
+
+}
+
+}
+function test(e)
+{
+if(!(( e.which >= 65 && e.which <=90 ) || (e.which >= 97 && e.which <=122)))
+{
+e.preventDefault();
+
+}
+
+}
+
+
+</script>
+
+
+</head>
+
+<body onload="filldd()">
+
+<select id="type" onchange="fillData()">
+</select>
+
+<select id="dd">
+<option>select</option>
+</select>
+        </script>
+ </head> 
+   <body> 
+    <center>
+        <B>New User Register here</B><i class="fa fa-arrow-down"></i>
+
+    </center>
+        <form onSubmit = "return checkPassword(this)"> 
+        <table border = 1 align = "center"> 
+            <tr> 
+                <td><i class="fa fa-user"></i>Username</td>
+                <td><input type="text" id="mytxt" onkeypress ="test(event)" placeholder="username" required>
+            </tr> 
+            <tr> 
+               <td><i class="fa fa-phone"></i>Phone number</td>
+                <td><input type="number" name="contact number" required>
+            </tr>
+            <div>
+            <tr>
+                <td><i class="fa fa-calendar"></i>Date of Birth</td>
+                <td><input type="date" name="DOB" min="1950-07-02" max="2002-08-01" required>
+                </td>
+            </tr>
+        </div>
+            <tr> 
+                <td><i class="fa fa-lock"></i>Password:></td> 
+                <td><input type = password name = password1 size = 25 required></td> 
+            </tr> 
+            <tr> 
+                <td><i class="fa fa-lock"></i>Confirm Password:</td>
+                <td><input type = password name = password2 size = 25 required></td> 
+            </tr> 
+            <tr> 
+                <td colspan = 2 align = right> 
+                <input type = submit value = "Submit"></td> 
+            </tr> 
+        </table> 
+        </form> 
+    </body> 
+</html>             
