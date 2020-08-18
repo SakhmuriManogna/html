@@ -1,0 +1,275 @@
+------------------------------------------------------------------Program1-------------------------------------------------------------------------------------------
+
+1) package mano;
+
+public class BreakSentence {
+
+	
+
+		public static void main(String[] args) {
+			
+		 
+		String str = "This is a java pogramming"; 
+			        String[] rev = str.split(" ", str.length()); 
+			  
+			        for (String a : rev) 
+			            System.out.println(a); 
+			    } 
+			 
+
+		}
+    ____________________________________________________________________________________________________________________________________________________________________________
+    
+    ------------------------------------------------------------------Program2-------------------------------------------------------------------------------------------
+
+    
+    2)		
+		import java.util.*; 
+		  
+		class BreakAndReverse { 
+		  
+			 void wordreverse(String str) 
+			{ 
+			    Stack<Character> stack=new Stack<Character>(); 
+			   
+			    
+			    for (int i = 0; i < str.length(); ++i) { 
+			        if (str.charAt(i) != ' ') 
+			            stack.push(str.charAt(i)); 
+			   
+			         
+			        else { 
+			            while (stack.empty() == false) { 
+			                System.out.print(stack.pop()); 
+			                  
+			            } 
+			            System.out.print(" "); 
+			        } 
+			    } 
+			   
+			
+			    while (stack.empty() == false) { 
+			        System.out.print(stack.pop()); 
+			          
+			    } 
+			} 
+			  
+		
+			public static void main(String[] args) 
+			{ 
+			   String str = "This is java Programming"; 
+			   BreakAndReverse b=new BreakAndReverse();
+			    b.wordreverse(str); 
+			  } 
+			}
+_______________________________________________________________________________________________________________________________________________________________________________
+----------------------------------------------------------------------Program3-------------------------------------------------------------------------------------------
+
+public class Car{
+	String CarName;
+	int Manufyear;
+	String Price;
+	public String getCarName() {
+		return CarName;
+	}
+	public void setCarName(String carName) {
+		CarName = carName;
+	}
+	public int getManufyear() {
+		return Manufyear;
+	}
+	public void setManufyear(int manufyear) {
+		Manufyear = manufyear;
+	}
+	public String getPrice() {
+		return Price;
+	}
+	public void setPrice(String price) {
+		Price = price;
+	}
+	public Car(String carName, int manufyear, String price) {
+		super();
+		CarName = carName;
+		Manufyear = manufyear;
+		Price = price;
+	}
+	@Override
+	public String toString() {
+		return "Car [CarName=" + CarName + ", Manufyear=" + Manufyear + ", Price=" + Price + "]";
+	}
+	public void cardisp() {
+		System.out.println("carName "+CarName+"manudate "+Manufyear+"price "+Price);
+		
+	}
+public Car(){}
+
+}
+
+----------------------------------------------------------------------------------------------------------------------
+package mano;
+import java.util.List;
+
+public class Showroom{
+	String ShowroomName;
+	List<Car> cars;
+	public String getShowroomName() {
+		return ShowroomName;
+	}
+	public void setShowroomName(String showroomName) {
+		ShowroomName = showroomName;
+	}
+	public Showroom(String showroomName, List<Car> cars) {
+		super();
+		ShowroomName = showroomName;
+		this.cars = cars;
+	}
+	public List<Car> getCars() {
+		return cars;
+	}
+	@Override
+	public String toString() {
+		return "Showroom [ShowroomName=" + ShowroomName + ", cars=" + cars + "]";
+	}
+	public void setCars(List<Car> cars) {
+		this.cars = cars;
+	}
+	
+}
+---------------------------------------------------------------------------------------------------
+package mano;
+
+import java.util.Comparator;
+
+public class ManufyearSort extends Car implements Comparator<Car> {
+	public int compare(Car c1,Car c2) {
+		return c1.Manufyear-c2.Manufyear;
+	}
+
+}
+-----------------------------------------------------------------------------------------------------
+package mano;
+import java.util.Comparator;
+
+public class CarNameSort extends Car implements Comparator<Car>{
+	
+	public int compare(Car c1,Car c2) {
+		return  c1.CarName.compareTo(c2.CarName) ;  
+		
+	}
+}
+--------------------------------------------------------------------------------------------------
+package mano;
+import java.util.*;
+
+public class MainCars {
+	Map<String,List<Car>>carstore;
+	public void displayCarsByShowroomname(String Showroomname)
+	{
+	List<Car> cars=carstore.get(Showroomname);
+	for(Car car:cars){
+	System.out.println(car);
+	}
+	}
+
+public static void main(String[] args) {
+	Car c1=new Car("sunny",2019,"520000");
+	Car c2=new Car("bunny",2006,"750000");
+	Car c3=new Car("manu",2012,"200000");
+	List<Car> cars=new ArrayList<Car>();
+	cars.add(c1);
+	cars.add(c2);
+	cars.add(c3);
+	Showroom sh=new Showroom("ARUn showroom",cars);
+	Collections.sort(cars, new CarNameSort());
+for(Car c:cars) {
+		System.out.println(c);
+	}
+	Car c4=new Car("Maruthi Suzuki",2020,"3500000");
+	
+	Car c5=new Car("Mahindra",2016,"120000");
+       Car c6=new Car("Honda",2012, "500000");
+	List<Car> cars1=new ArrayList<Car>();
+	cars1.add(c4);
+	cars1.add(c5);
+	cars1.add(c6);
+	Showroom sh1=new Showroom("madhura showroom",cars1);
+	Collections.sort(cars1, new ManufyearSort());
+	for(Car c:cars1) {
+		System.out.println(c);
+	}
+	MainCars m=new MainCars();
+	m.carstore=new HashMap<String,List<Car>>();
+	  m.carstore.put(sh.getShowroomName(), sh.getCars());
+	  m.carstore.put(sh1.getShowroomName(),sh1.getCars());
+	  m.displayCarsByShowroomname("madhura showroom");	
+	
+}
+}
+
+
+_____________________________________________________________________________________________________________________________________________________________________________
+--------------------------------------------------------------------Program4-------------------------------------------------------------------------------------------
+
+
+
+
+4)package mano;
+
+
+
+	  class UncheckedException extends Exception 
+	{
+		public UncheckedException()
+		{
+		System.out.println("Please Enter Valid Marks i.e less than 101");
+		}
+
+	}
+  
+  
+  
+  
+  -----------------------------------
+  
+  
+  package mano;
+
+
+
+
+public class MarksValidation {
+void validmarks(int marks) throws UncheckedException
+{
+if(marks>100)
+throw new UncheckedException();
+else
+System.out.println("Marks scored is "+marks);
+}
+}
+
+
+------------------------------------------------
+package mano;
+
+
+
+	public class MyExcep {
+
+		public static void main(String[] args) {
+		MarksValidation m=new MarksValidation();
+		MarksValidation m1=new MarksValidation();
+		try {
+		m.validmarks(85);
+		m1.validmarks(180);
+		
+		}
+		catch (Exception e) {
+		//e.printStackTrace();
+		System.out.println(e);
+		}
+
+		}
+		}
+
+
+
