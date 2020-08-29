@@ -1,49 +1,55 @@
-package mano;
+package com.mysrv.demos;
 
 public class Employee {
-	int rollno;
-	String name;
-	int phonenumber;
-	float cgpa;
-	int age;
-	
-	void init()
-	{
-		rollno=1;
-		name="ramu";
-		phonenumber=963872188;
-		cgpa=7.8f;
-		age=21;
-		
-		
-	}
-	void init1()
-	{
-		rollno=14;
-		name="harish";
-		phonenumber=89635788;
-		cgpa=6.78f;
-		age=20;
-	}
-	  void displayEmploye()
-	  {
-		 
-		  System.out.println(rollno);
-		  System.out.println(name);
-		  System.out.println(phonenumber);
-		  System.out.println(cgpa);
-		  System.out.println(age);
-		
-	  }
-
-	public static void main(String[] args) 
-	{
-    
-     Employee m=new Employee();
-     m.init();
-     m.displayEmploye();
-     m.init1();
-     m.displayEmploye();
+	private int empId;
+	private String empName;
+	private int empAge;
+	private String empAddress;
+	public Employee() {
+	// TODO Auto-generated constructor stub
 	}
 
-}
+
+	@Override
+	public String toString() {
+	return "Employee [empId=" + empId + ", empName=" + empName + ", empAge=" + empAge + ", empAddress=" + empAddress
+	+ "]";
+	}
+
+
+	public Employee(int empId, String empName, int empAge, String empAddress) {
+	super();
+	this.empId = empId;
+	this.empName = empName;
+	this.empAge = empAge;
+	this.empAddress = empAddress;
+	}
+	public int getEmpId() {
+	return empId;
+	}
+	public void setEmpId(int empId) {
+	this.empId = empId;
+	}
+	public String getEmpName() {
+	return empName;
+	}
+	public void setEmpName(String empName) {
+	this.empName = empName;
+	}
+	public int getEmpAge() {
+	return empAge;
+	}
+	public void setEmpAge(int empAge) {
+	this.empAge = empAge;
+	}
+	public String getEmpAddress() {
+	return empAddress;
+	}
+	public void setEmpAddress(String empAddress) {
+	this.empAddress = empAddress;
+	}
+
+
+
+	}
+
