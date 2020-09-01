@@ -1,0 +1,45 @@
+create table attendance(
+studId int,
+studName varchar(20),
+sem int,
+AttendanceDate date,
+AttendanceStatus varchar(6));
+
+
+----------------------------------------------------
+
+insert into students values(1,'rohit',1);
+insert into students values(2,'ram',1);
+insert into students values(3,'prakash',1);
+insert into students values(4,'sita',1);
+insert into students values(5,'geetha',1);
+------------------------------------------------------
+insert into students values(6,'manu',2);
+insert into students values(7,'mano',2);
+insert into students values(8,'rk',2);
+insert into students values(9,'rajiv',2);
+insert into students values(10,'raja',2);
+------------------------------------------------------
+insert into students values(11,'mlg',3);
+insert into students values(12,'heavns land',3);
+insert into students values(13,'yamini',3);
+insert into students values(14,'avinash',3);
+insert into students values(15,'abinav',3);
+------------------------------------------------------
+insert into students values(16,'chintu',4);
+insert into students values(17,'waste',4);
+insert into students values(18,'dude',4);
+insert into students values(19,'Ben10',4);
+insert into students values(20,'doremon',4);
+------------------------------------------------------
+insert into students values(21,'schinchan',5);
+insert into students values(22,'tom',5);
+insert into students values(23,'jerry',5);
+insert into students values(24,'hookie',5);
+insert into students values(25,'pokemon',5);
+------------------------------------------------------
+create table students(
+studId int primary key,
+studName varchar(20),
+sem int):
+
