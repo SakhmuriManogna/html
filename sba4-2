@@ -1,0 +1,625 @@
+
+
+Table is auto created as i have added createuser page.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+package com.myapp.sba4.model;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class AppUsers {
+	
+	@Id
+	int userId;
+	String userName;
+	String password;
+	String securityQuestion;
+	String securityAnswer;
+	
+	
+	public AppUsers() {
+		// TODO Auto-generated constructor stub
+	}
+
+
+	public AppUsers(int userId, String userName, String password, String securityQuestion, String securityAnswer) {
+		super();
+		this.userId = userId;
+		this.userName = userName;
+		this.password = password;
+		this.securityQuestion = securityQuestion;
+		this.securityAnswer = securityAnswer;
+	}
+
+
+	public int getUserId() {
+		return userId;
+	}
+
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+
+	public String getUserName() {
+		return userName;
+	}
+
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
+	public String getSecurityQuestion() {
+		return securityQuestion;
+	}
+
+
+	public void setSecurityQuestion(String securityQuestion) {
+		this.securityQuestion = securityQuestion;
+	}
+
+
+	public String getSecurityAnswer() {
+		return securityAnswer;
+	}
+
+
+	public void setSecurityAnswer(String securityAnswer) {
+		this.securityAnswer = securityAnswer;
+	}
+
+
+	@Override
+	public String toString() {
+		return "AppUsers [userId=" + userId + ", userName=" + userName + ", password=" + password
+				+ ", securityQuestion=" + securityQuestion + ", securityAnswer=" + securityAnswer + "]";
+	}
+	
+	
+	
+	
+
+}
+_______________________________________________________________________________________________________________________________________________________________________________
+
+DAO CLASS:
+
+
+package com.myapp.sba4.dao;
+
+import java.util.ArrayList;
+
+import javax.transaction.Transactional;
+
+import org.aspectj.runtime.reflect.Factory;
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.myapp.sba4.model.AppUsers;
+
+
+
+
+
+@Component
+@Transactional
+public class AppUsersDao {
+	
+	@Autowired
+	SessionFactory sessionFactory;
+	
+	public AppUsersDao() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public AppUsersDao(SessionFactory sessionFactory) {
+		super();
+		this.sessionFactory = sessionFactory;
+	}
+	
+	public AppUsers getUsersById(int userId){
+		try{
+		Session session=sessionFactory.getCurrentSession();
+		AppUsers AppUsers=(AppUsers)session.get(AppUsers.class,userId);
+		return AppUsers;
+		}
+		catch (Exception e) {
+		// TODO: handle exception
+		e.printStackTrace();
+		}
+
+		return null;
+		}
+	
+	public String updatePassword(int userId, String password)
+	{
+		try
+		{
+			Session session=sessionFactory.getCurrentSession();
+			Query query = session.createQuery("update AppUsers set password = :password" +" where userId = :userId");
+			query.setParameter("password",password);
+			query.setParameter("userId",userId);
+			int count=query.executeUpdate();
+			if(count>0)
+				return "password updated";
+			
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return "password cannot updated";
+
+	}
+	
+	
+	public String saveUsers(AppUsers AppUsers){
+		try{
+			Session session=sessionFactory.getCurrentSession();
+			session.save(AppUsers);
+			return "user Created";
+		}
+		catch (Exception e) {
+		// TODO: handle exception
+		e.printStackTrace();
+		}
+
+		return "cannot create user";
+		}
+	
+
+}
+
+
+_______________________________________________________________________________________________________________________________________________________________________________
+package com.myapp.sba4;
+
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.support.DaoSupport;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.myapp.sba4.dao.AppUsersDao;
+import com.myapp.sba4.model.AppUsers;
+
+@Controller
+public class HomeController {
+	
+	
+	@Autowired
+	AppUsersDao dao;
+	
+	
+	@RequestMapping(value="/test")
+	public String home()
+	{
+		return "home";
+	}
+	
+	@RequestMapping(value="/loginsuccesspage")
+	public String loginPage(Model model,@ModelAttribute AppUsers AppUsers)
+	{
+		int userId=AppUsers.getUserId();
+		String password=AppUsers.getPassword();
+		AppUsers AppUsers2=dao.getUsersById(userId);
+		if((userId==(AppUsers2.getUserId())) && (password.equals(AppUsers2.getPassword())))
+		{
+			return "loginsuccesspage";
+		}
+		
+		else
+		{
+			
+			return "loginfail";
+		}
+		
+	}
+	
+	@RequestMapping(value="/forgetpasswordpage")
+	public String forgetPassword()
+	{
+		return "forgetpasswordpage";
+	}
+	@RequestMapping(value="/changepasswordpage")
+	public String forgetPassword(Model model,@ModelAttribute AppUsers AppUsers)
+	{
+		int userId=AppUsers.getUserId();
+		String userName=AppUsers.getUserName();
+		String securityQuestion=AppUsers.getSecurityQuestion();
+		String securityAnswer=AppUsers.getSecurityAnswer();
+		AppUsers AppUsers2=dao.getUsersById(userId);
+		if((userId==(AppUsers2.getUserId())) && (userName.equals(AppUsers2.getUserName()))  && (securityQuestion.equals(AppUsers2.getSecurityQuestion()))  &&  (securityAnswer.equals(AppUsers2.getSecurityAnswer())) )
+		{
+			model.addAttribute("userId",userId);
+			return "changepasswordpage";
+		}
+		else 
+		{
+			return "changepasswordfail";
+		}
+			
+			
+	}
+	
+	@RequestMapping(value="/changesuccesspage")
+	public String changePassword(Model model,@ModelAttribute AppUsers AppUsers)
+	{
+		int userId=AppUsers.getUserId();
+		String password=AppUsers.getPassword();
+		String status=dao.updatePassword(userId, password);
+		model.addAttribute("status",status);
+		return "passwordupdatestatus";
+	}
+	
+	
+	@RequestMapping(value="/createstatuspage")
+	public String saveUser(Model model,@ModelAttribute AppUsers AppUsers)
+	{
+		String status=dao.saveUsers(AppUsers);
+		model.addAttribute("status",status);
+		return "createstatuspage";
+		
+	}
+	
+	@RequestMapping(value="/createuserpage")
+	public String createUser()
+	{
+		return "createuserpage";
+	}
+	
+	
+
+}
+----------------------------------------------------------------------------------------------------------------------------------------
+package com.myapp.sba4;
+
+import javax.persistence.EntityManagerFactory;
+
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+
+@EnableTransactionManagement
+@Configuration
+public class ConfigClass {
+	
+	@Autowired
+	EntityManagerFactory entityManagerFactory;
+
+	@Bean
+	public SessionFactory getSessionFactory(){
+	return entityManagerFactory.unwrap(SessionFactory.class);
+	}
+
+	}
+-------------------------------------------------------------------------------------------------------------------------------------
+package com.myapp.sba4;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class BootSba4Application {
+
+	public static void main(String[] args) {
+		SpringApplication.run(BootSba4Application.class, args);
+	}
+
+}
+
+
+
+____________________________________________________________________________________________________________________________________________________________________________
+
+
+
+JSP FILES:-----
+
+
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<link href="/css/image.css"  rel="stylesheet" type="text/css">
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+<script type="text/javascript"> 
+    alert("Invalid credentials please try again"); 
+    window.location.href = "forgetpasswordpage";
+</script>
+
+</head>
+<body>
+
+</body>
+</html>
+___________________________________________________________________________________________________________________________________________
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    
+ <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+ 
+<!DOCTYPE html>
+<html>
+<head>
+<link href="/css/image.css"  rel="stylesheet" type="text/css">
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script type="text/javascript">
+
+function check()
+{
+	
+	var t1=document.getElementById('t1').value;
+	var t2=document.getElementById('t2').value;
+	
+	if (t1!=t2) {
+		window.alert("Password and confirm password must be same");
+		return false;
+	}
+	
+	else
+		{
+		return true;
+		}
+	}
+
+</script>
+
+</head>
+<body align="center">
+<p>Enter new password here</p><br>
+<form action="changesuccesspage">
+
+<input type="hidden" name="userId" value="${userId}">
+
+password :<input type="text" name="password" id="t1"><br><br>
+
+confirm password:<input type="text" name="repassword" id="t2"><br><br>
+
+<input type="submit"  onclick="return check()">
+
+
+</form>
+</body>
+</html>
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<link href="/css/image.css"  rel="stylesheet" type="text/css">
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body align="center">
+<br>S
+<br>
+<br>
+<P>  ${status} </P>
+<br><br>
+
+<a href="test">LoginHere</a>
+
+
+</body>
+</html>
+_-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<link href="/css/image.css"  rel="stylesheet" type="text/css">
+<meta charset="ISO-8859-1">
+<title>LoginIn</title>
+</head>
+<body align="center">
+<form action="createstatuspage">
+
+
+UserId :<input type="text" name="userId"> <br><br>
+User Name :<input type="text" name="userName"><br><br>
+
+Password :<input type="text" name="password"><br><br>
+
+Security Question :<select name="securityQuestion">
+<option> select </option>
+<option value="favorite sport"> favorite sport </option>
+<option value="first school name"> first school name </option>
+<option value="first pet name"> first pet name </option>
+<option value="favorite movie name"> favorite movie name </option>
+
+
+</select><br><br>
+
+Security Answer :<input type="text" name="securityAnswer"><br><br>
+
+
+
+<input type="submit" value="CreateUser">
+</form>
+
+
+</body>
+</html>
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<link href="/css/image.css"  rel="stylesheet" type="text/css">
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body align="center">
+
+<form action="changepasswordpage">
+UserId :<input type="text" name="userId"> <br><br>
+User Name :<input type="text" name="userName"><br><br>
+
+Security Question :<select name="securityQuestion">
+<option> select </option>
+<option value="favorite sport"> favorite sport </option>
+<option value="first school name"> first school name </option>
+<option value="first pet name"> first pet name </option>
+<option value="favorite movie name"> favorite movie name </option>
+
+</select><br><br>
+
+Security Answer :<input type="text" name="securityAnswer"><br><br>
+
+<input type="submit" value="changepassword">
+</form>
+</body>
+</html>
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<link href="/css/image.css"  rel="stylesheet" type="text/css">
+<meta charset="ISO-8859-1">
+<title>LoginIn</title>
+</head>
+<body align="center">
+
+
+<form action="loginsuccesspage">
+<br><br>
+
+UserId :<input type="text" name="userId"> <br><br>
+
+Password :<input type="text" name="password"><br><br>
+
+
+<input type="submit" value="login">
+</form>
+<br>
+<a href="forgetpasswordpage">ForgetPassword</a><br><br>
+
+<a href="createuserpage">Create new user</a>
+
+</body>
+</html>
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<link href="/css/image.css"  rel="stylesheet" type="text/css">
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+<script type="text/javascript"> 
+    alert("UserId or Password is incorrect"); 
+    window.location.href = "test";
+</script>
+
+</head>
+<body>
+
+</body>
+</html>
+-----------------------------------------------------------------------------------------------------------------------------------------------
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<link href="/css/image.css"  rel="stylesheet" type="text/css">
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body align="center">
+<br><br>
+welcome
+<br><br>
+<a href="test">Logout</a>
+
+</body>
+</html>
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<link href="/css/image.css"  rel="stylesheet" type="text/css">
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body align="center">
+
+<br><br>
+<P>  ${status} </P>
+<br><br>
+<a href="test">LoginHere</a>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
