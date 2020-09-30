@@ -1,53 +1,65 @@
-package com.mydrv.model;
+package com.myapp.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="employeee")
 public class Employee {
-	private int empId;
-	private String empName;
-	private int empAge;
-	private String empAddress;
-	public Employee() {
-	// TODO Auto-generated constructor stub
+	@Id
+	int empid ;
+	String empname;
+	String city;
+	int age;
+	String dept;
+	public int getEmpid() {
+		return empid;
 	}
-
-
+	public void setEmpid(int empid) {
+		this.empid = empid;
+	}
+	public String getEmpname() {
+		return empname;
+	}
+	public void setEmpname(String empname) {
+		this.empname = empname;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	public String getDept() {
+		return dept;
+	}
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
+	public Employee(int empid, String empname, String city, int age, String dept) {
+		super();
+		this.empid = empid;
+		this.empname = empname;
+		this.city = city;
+		this.age = age;
+		this.dept = dept;
+	}
 	@Override
 	public String toString() {
-	return "Employee [empId=" + empId + ", empName=" + empName + ", empAge=" + empAge + ", empAddress=" + empAddress
-	+ "]";
+		return "Employee [empid=" + empid + ", empname=" + empname + ", city=" + city + ", age=" + age + ", dept="
+				+ dept + "]";
+	}
+	public Employee() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
-
-	public Employee(int empId, String empName, int empAge, String empAddress) {
-	super();
-	this.empId = empId;
-	this.empName = empName;
-	this.empAge = empAge;
-	this.empAddress = empAddress;
-	}
-	public int getEmpId() {
-	return empId;
-	}
-	public void setEmpId(int empId) {
-	this.empId = empId;
-	}
-	public String getEmpName() {
-	return empName;
-	}
-	public void setEmpName(String empName) {
-	this.empName = empName;
-	}
-	public int getEmpAge() {
-	return empAge;
-	}
-	public void setEmpAge(int empAge) {
-	this.empAge = empAge;
-	}
-	public String getEmpAddress() {
-	return empAddress;
-	}
-	public void setEmpAddress(String empAddress) {
-	this.empAddress = empAddress;
-	}
-
-
+	
 }
