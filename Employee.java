@@ -1,4 +1,4 @@
-package com.mysrv.demos;
+package com.mydrv.model;
 
 public class Employee {
 	private int empId;
@@ -50,6 +50,4 @@ public class Employee {
 	}
 
 
-
-	}
-
+}
